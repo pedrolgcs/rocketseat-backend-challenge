@@ -1,0 +1,40 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Challenge {
+  id          String   @id @default(uuid())
+  title       String
+  description String
+  createdAt   DateTime @default(now())
+
+  // FK
+  Submission Submission[]
+
+  @@map("challenges")
+}
+
+enum SubmissionStatus {
+  PENDING
+  DONE
+  ERROR
+}
+
+model Submission {
+  id         String           @id @default(uuid())
+  repository String
+  status     SubmissionStatus @default(PENDING)
+  grade      Int              @default(0)
+  createdAt  DateTime         @default(now())
+
+  // FK
+  challenge   Challenge @relation(fields: [challengeId], references: [id])
+  challengeId String
+
+  @@map("submissions")
+}
