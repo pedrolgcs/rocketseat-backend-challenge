@@ -29,12 +29,12 @@ model Submission {
   id         String           @id @default(uuid())
   repository String
   status     SubmissionStatus @default(PENDING)
-  grade      Int              @default(0)
+  grade      Int?
   createdAt  DateTime         @default(now())
 
   // FK
-  challenge   Challenge @relation(fields: [challengeId], references: [id])
-  challengeId String
+  challenge   Challenge? @relation(fields: [challengeId], references: [id])
+  challengeId String?
 
   @@map("submissions")
 }
