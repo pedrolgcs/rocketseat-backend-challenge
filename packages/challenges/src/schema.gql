@@ -1,0 +1,36 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Submission {
+  id: ID!
+  repository: String!
+  status: SubmissionStatus!
+  grade: Float!
+  createdAt: DateTime!
+  challenge: Challenge!
+}
+
+"""The status of the submission"""
+enum SubmissionStatus {
+  PENDING
+  APPROVED
+  FAILED
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type Challenge {
+  id: ID!
+  title: String!
+  description: String!
+  createdAt: DateTime!
+  submissions: [Submission!]!
+}
+
+type Query {
+  challenges: String!
+}
