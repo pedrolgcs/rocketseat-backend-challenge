@@ -6,9 +6,9 @@ type Submission {
   id: ID!
   repository: String!
   status: SubmissionStatus!
-  grade: Float!
+  grade: Float
   createdAt: DateTime!
-  challenge: Challenge!
+  challenge: Challenge
 }
 
 """The status of the submission"""
@@ -33,6 +33,7 @@ type Challenge {
 
 type Query {
   challenges(filter: ListChallengesInput!): [Challenge!]!
+  submissions: [Submission!]!
 }
 
 input ListChallengesInput {
@@ -46,6 +47,7 @@ type Mutation {
   createChallenge(data: CreateChallengeInput!): Challenge!
   updateChallenge(id: String!, data: UpdateChallengeInput!): Challenge!
   deleteChallenge(id: String!): Challenge!
+  createSubmission(data: CreateSubmissionInput!): Submission!
 }
 
 input CreateChallengeInput {
@@ -56,4 +58,9 @@ input CreateChallengeInput {
 input UpdateChallengeInput {
   title: String!
   description: String!
+}
+
+input CreateSubmissionInput {
+  repository: String!
+  challengeId: String!
 }

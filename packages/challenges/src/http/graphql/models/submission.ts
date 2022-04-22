@@ -23,12 +23,13 @@ export class Submission {
   @Field(() => SubmissionStatus)
   status: SubmissionStatus;
 
-  @Field()
+  @Field({ nullable: true })
   grade: number;
 
   @Field(() => Date)
   createdAt: Date;
 
-  @Field(() => Challenge)
+  @Field(() => Challenge, { nullable: true })
   challenge: Challenge;
+  challengeId: string;
 }

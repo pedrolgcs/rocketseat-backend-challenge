@@ -53,6 +53,14 @@ export class ChallengesService {
     return challenges;
   }
 
+  async getChallengeById(id: string) {
+    const challenge = await this.prisma.challenge.findUnique({
+      where: { id },
+    });
+
+    return challenge;
+  }
+
   async createChallenge({ title, description }: CreateChallengeParams) {
     const challenge = await this.prisma.challenge.create({
       data: {

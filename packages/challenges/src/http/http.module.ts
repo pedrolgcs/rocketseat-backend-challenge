@@ -5,6 +5,7 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { DatabaseModule } from '../database/database.module';
 import { ChallengesResolver } from './graphql/resolvers/challenges.resolver';
+import { SubmissionsResolver } from './graphql/resolvers/submissions.resolver';
 import { ChallengesService } from '../services/challenges.service';
 import { SubmissionsService } from '../services/submissions.service';
 
@@ -20,6 +21,7 @@ import { SubmissionsService } from '../services/submissions.service';
   providers: [
     // Resolvers
     ChallengesResolver,
+    SubmissionsResolver,
 
     // Services
     ChallengesService,
