@@ -8,3 +8,12 @@ export class CreateChallengeInput {
   @Field()
   description: string;
 }
+
+@InputType()
+export class UpdateChallengeInput {
+  @Field()
+  title: string;
+
+  @Field()
+  description: string;
+}

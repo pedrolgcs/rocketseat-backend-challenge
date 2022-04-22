@@ -6,6 +6,11 @@ interface CreateChallengeParams {
   description: string;
 }
 
+interface UpdateChallengeParams {
+  title: string;
+  description: string;
+}
+
 @Injectable()
 export class ChallengesService {
   constructor(private prisma: PrismaService) {}
@@ -16,6 +21,15 @@ export class ChallengesService {
         title,
         description,
       },
+    });
+
+    return challenge;
+  }
+
+  async updateChallenge(id: string, data: UpdateChallengeParams) {
+    const challenge = await this.prisma.challenge.update({
+      where: { id },
+      data,
     });
 
     return challenge;

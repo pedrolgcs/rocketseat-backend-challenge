@@ -37,10 +37,16 @@ type Query {
 
 type Mutation {
   createChallenge(data: CreateChallengeInput!): Challenge!
+  updateChallenge(id: String!, data: UpdateChallengeInput!): Challenge!
   deleteChallenge(id: String!): Challenge!
 }
 
 input CreateChallengeInput {
+  title: String!
+  description: String!
+}
+
+input UpdateChallengeInput {
   title: String!
   description: String!
 }

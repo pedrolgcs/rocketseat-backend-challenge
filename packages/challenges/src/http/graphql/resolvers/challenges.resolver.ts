@@ -1,7 +1,10 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { ChallengesService } from '../../../services/challenges.service';
 import { Challenge } from '../models/challenge';
-import { CreateChallengeInput } from '../inputs/create-challenge-input';
+import {
+  CreateChallengeInput,
+  UpdateChallengeInput,
+} from '../inputs/create-challenge-input';
 
 @Resolver(() => Challenge)
 export class ChallengesResolver {
@@ -15,6 +18,14 @@ export class ChallengesResolver {
   @Mutation(() => Challenge)
   createChallenge(@Args('data') data: CreateChallengeInput) {
     return this.challengesService.createChallenge(data);
+  }
+
+  @Mutation(() => Challenge)
+  updateChallenge(
+    @Args('id') id: string,
+    @Args('data') data: UpdateChallengeInput,
+  ) {
+    return this.challengesService.updateChallenge(id, data);
   }
 
   @Mutation(() => Challenge)
