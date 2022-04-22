@@ -5,6 +5,7 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { DatabaseModule } from '../database/database.module';
 import { ChallengesResolver } from './graphql/resolvers/challenges.resolver';
+import { ChallengesService } from '../services/challenges.service';
 
 @Module({
   imports: [
@@ -18,6 +19,9 @@ import { ChallengesResolver } from './graphql/resolvers/challenges.resolver';
   providers: [
     // Resolvers
     ChallengesResolver,
+
+    // Services
+    ChallengesService,
   ],
 })
 export class HttpModule {}

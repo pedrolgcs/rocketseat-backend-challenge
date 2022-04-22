@@ -34,3 +34,12 @@ type Challenge {
 type Query {
   challenges: String!
 }
+
+type Mutation {
+  createChallenge(data: CreateChallengeInput!): Challenge!
+}
+
+input CreateChallengeInput {
+  title: String!
+  description: String!
+}
