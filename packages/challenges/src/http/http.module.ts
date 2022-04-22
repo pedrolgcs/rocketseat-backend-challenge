@@ -6,6 +6,7 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { DatabaseModule } from '../database/database.module';
 import { ChallengesResolver } from './graphql/resolvers/challenges.resolver';
 import { ChallengesService } from '../services/challenges.service';
+import { SubmissionsService } from '../services/submissions.service';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { ChallengesService } from '../services/challenges.service';
 
     // Services
     ChallengesService,
+    SubmissionsService,
   ],
 })
 export class HttpModule {}

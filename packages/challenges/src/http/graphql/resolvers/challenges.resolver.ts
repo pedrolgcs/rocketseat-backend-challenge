@@ -1,16 +1,28 @@
-import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import {
+  Args,
+  Mutation,
+  Parent,
+  Query,
+  ResolveField,
+  Resolver,
+} from '@nestjs/graphql';
 import { ChallengesService } from '../../../services/challenges.service';
+import { SubmissionsService } from '../../../services/submissions.service';
 import { Challenge } from '../models/challenge';
 import { CreateChallengeInput } from '../inputs/create-challenge-input';
 import { UpdateChallengeInput } from '../inputs/update-challenge-input';
+import { ListChallengesInput } from '../inputs/list-challenges-input';
 
 @Resolver(() => Challenge)
 export class ChallengesResolver {
-  constructor(private challengesService: ChallengesService) {}
+  constructor(
+    private challengesService: ChallengesService,
+    private submissionsService: SubmissionsService,
+  ) {}
 
-  @Query(() => String)
-  challenges() {
-    return 'Challenge';
+  @Query(() => [Challenge])
+  challenges(@Args('filter') filter: ListChallengesInput) {
+    return this.challengesService.listChallenges(filter);
   }
 
   @Mutation(() => Challenge)
@@ -29,5 +41,10 @@ export class ChallengesResolver {
   @Mutation(() => Challenge)
   deleteChallenge(@Args('id') id: string) {
     return this.challengesService.deleteChallenge(id);
+  }
+
+  @ResolveField()
+  submissions(@Parent() challenge: Challenge) {
+    return this.submissionsService.getSubmissionsByChallengeId(challenge.id);
   }
 }

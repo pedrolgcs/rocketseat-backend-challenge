@@ -32,7 +32,14 @@ type Challenge {
 }
 
 type Query {
-  challenges: String!
+  challenges(filter: ListChallengesInput!): [Challenge!]!
+}
+
+input ListChallengesInput {
+  title: String
+  description: String
+  page: Float
+  perPage: Float
 }
 
 type Mutation {
