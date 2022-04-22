@@ -10,7 +10,7 @@ export class KafkaService
   constructor(configService: ConfigService) {
     super({
       client: {
-        clientId: 'challenges',
+        clientId: 'challenge',
         brokers: [configService.get('KAFKA_BROKERS')],
       },
     });

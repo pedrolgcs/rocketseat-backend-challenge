@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../database/prisma/prisma.service';
+import { KafkaService } from '../messaging/kafka.service';
 
 interface ListSubmissionsParams {
   challengeId?: string;
@@ -16,7 +17,7 @@ interface CreateSubmissionParams {
 }
 @Injectable()
 export class SubmissionsService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private prisma: PrismaService, private kafka: KafkaService) {}
 
   async listSubmissions(filters: ListSubmissionsParams) {
     const {
@@ -96,6 +97,12 @@ export class SubmissionsService {
         repository: gitUrl,
         challengeId,
       },
+    });
+
+    // Send kafka message
+    this.kafka.emit('challenge.correction', {
+      submissionId: submission.id,
+      repositoryUrl: submission.repository,
     });
 
     return submission;

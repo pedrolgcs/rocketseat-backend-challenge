@@ -4,6 +4,7 @@ import { ConfigModule } from '@nestjs/config';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { DatabaseModule } from '../database/database.module';
+import { MessagingModule } from '../messaging/messaging.module';
 import { ChallengesResolver } from './graphql/resolvers/challenges.resolver';
 import { SubmissionsResolver } from './graphql/resolvers/submissions.resolver';
 import { ChallengesService } from '../services/challenges.service';
@@ -13,6 +14,7 @@ import { SubmissionsService } from '../services/submissions.service';
   imports: [
     ConfigModule.forRoot(),
     DatabaseModule,
+    MessagingModule,
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       autoSchemaFile: resolve(process.cwd(), 'src/schema.gql'),
