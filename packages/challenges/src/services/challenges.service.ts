@@ -20,4 +20,14 @@ export class ChallengesService {
 
     return challenge;
   }
+
+  async deleteChallenge(id: string) {
+    const challenge = await this.prisma.challenge.delete({
+      where: {
+        id,
+      },
+    });
+
+    return challenge;
+  }
 }

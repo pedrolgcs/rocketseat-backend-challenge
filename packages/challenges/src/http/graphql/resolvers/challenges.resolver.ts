@@ -16,4 +16,9 @@ export class ChallengesResolver {
   createChallenge(@Args('data') data: CreateChallengeInput) {
     return this.challengesService.createChallenge(data);
   }
+
+  @Mutation(() => Challenge)
+  deleteChallenge(@Args('id') id: string) {
+    return this.challengesService.deleteChallenge(id);
+  }
 }

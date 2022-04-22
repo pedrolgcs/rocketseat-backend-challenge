@@ -37,6 +37,7 @@ type Query {
 
 type Mutation {
   createChallenge(data: CreateChallengeInput!): Challenge!
+  deleteChallenge(id: String!): Challenge!
 }
 
 input CreateChallengeInput {
