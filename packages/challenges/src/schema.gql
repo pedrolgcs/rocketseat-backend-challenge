@@ -14,8 +14,8 @@ type Submission {
 """The status of the submission"""
 enum SubmissionStatus {
   PENDING
-  APPROVED
-  FAILED
+  DONE
+  ERROR
 }
 
 """
@@ -33,12 +33,21 @@ type Challenge {
 
 type Query {
   challenges(filter: ListChallengesInput!): [Challenge!]!
-  submissions: [Submission!]!
+  submissions(filter: ListSubmissionsInput!): [Submission!]!
 }
 
 input ListChallengesInput {
   title: String
   description: String
+  page: Float
+  perPage: Float
+}
+
+input ListSubmissionsInput {
+  challengeId: String
+  dateStart: DateTime
+  dateEnd: DateTime
+  status: String
   page: Float
   perPage: Float
 }

@@ -9,6 +9,7 @@ import {
 import { SubmissionsService } from '../../../services/submissions.service';
 import { ChallengesService } from '../../../services/challenges.service';
 import { CreateSubmissionInput } from '../inputs/create-submission-input';
+import { ListSubmissionsInput } from '../inputs/list-submissions-input';
 import { Submission } from '../models/submission';
 
 @Resolver(() => Submission)
@@ -19,8 +20,8 @@ export class SubmissionsResolver {
   ) {}
 
   @Query(() => [Submission])
-  submissions() {
-    return this.submissionsService.listSubmissions();
+  submissions(@Args('filter') filter: ListSubmissionsInput) {
+    return this.submissionsService.listSubmissions(filter);
   }
 
   @Mutation(() => Submission)

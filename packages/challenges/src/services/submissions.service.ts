@@ -1,6 +1,15 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../database/prisma/prisma.service';
 
+interface ListSubmissionsParams {
+  challengeId?: string;
+  dateStart?: Date;
+  dateEnd?: Date;
+  status?: 'PENDING' | 'DONE' | 'ERROR';
+  page?: number;
+  perPage?: number;
+}
+
 interface CreateSubmissionParams {
   repository: string;
   challengeId: string;
@@ -9,8 +18,28 @@ interface CreateSubmissionParams {
 export class SubmissionsService {
   constructor(private prisma: PrismaService) {}
 
-  async listSubmissions() {
-    const submissions = await this.prisma.submission.findMany();
+  async listSubmissions(filters: ListSubmissionsParams) {
+    const {
+      challengeId,
+      status,
+      page = 1,
+      perPage = 10,
+      dateStart,
+      dateEnd,
+    } = filters;
+
+    const submissions = await this.prisma.submission.findMany({
+      where: {
+        challengeId: challengeId ? { equals: challengeId } : undefined,
+        status: status ? { equals: status } : undefined,
+        createdAt: {
+          gte: dateStart ? dateStart : undefined,
+          lte: dateEnd ? dateEnd : undefined,
+        },
+      },
+      skip: perPage * (page - 1),
+      take: perPage,
+    });
 
     return submissions;
   }
@@ -24,16 +53,6 @@ export class SubmissionsService {
 
     return submissions;
   }
-
-  // async getSubmissionsByChallengeId(challengeId: string) {
-  //   const challenge = await this.prisma.challenge.findUnique({
-  //     where: {
-  //       id: challengeId,
-  //     },
-  //   });
-
-  //   return challenge;
-  // }
 
   async createSubmission(data: CreateSubmissionParams) {
     const { repository, challengeId } = data;

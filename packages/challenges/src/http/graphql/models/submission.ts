@@ -3,8 +3,8 @@ import { Challenge } from './challenge';
 
 enum SubmissionStatus {
   PENDING = 'PENDING',
-  APPROVED = 'DONE',
-  FAILED = 'ERROR',
+  DONE = 'DONE',
+  ERROR = 'ERROR',
 }
 
 registerEnumType(SubmissionStatus, {
