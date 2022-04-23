@@ -1,23 +1,30 @@
+import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
-  const app = await NestFactory.createMicroservice<MicroserviceOptions>(
-    AppModule,
-    {
-      transport: Transport.KAFKA,
-      options: {
-        client: {
-          brokers: ['localhost:9092'],
-        },
-        consumer: {
-          groupId: 'challenge-consumer',
-        },
+  const app = await NestFactory.create(AppModule);
+  const configService = app.get<ConfigService>(ConfigService);
+
+  app.connectMicroservice<MicroserviceOptions>({
+    transport: Transport.KAFKA,
+    options: {
+      client: {
+        clientId: 'correction',
+        brokers: [configService.get('KAFKA_BROKERS')],
+      },
+      consumer: {
+        groupId: 'challenge-consumer',
       },
     },
-  );
+  });
 
-  app.listen(() => console.log('Kafka consumer service is listening!'));
+  app
+    .startAllMicroservices()
+    .then(() => console.log('[Correction] Microservice started'));
+
+  await app.listen(3333);
 }
+
 bootstrap();
