@@ -16,6 +16,11 @@ interface CreateAnswerParams {
   challengeId: string;
 }
 
+interface UpdateAnswerParams {
+  grade: number;
+  status: 'PENDING' | 'DONE' | 'ERROR';
+}
+
 @Injectable()
 export class AnswersService {
   constructor(private prisma: PrismaService, private kafka: KafkaService) {}
@@ -100,10 +105,18 @@ export class AnswersService {
       },
     });
 
-    // Send kafka message
     this.kafka.emit('challenge.correction', {
       submissionId: answer.id,
       repositoryUrl: answer.repository,
+    });
+
+    return answer;
+  }
+
+  async updateAnswer(id: string, data: UpdateAnswerParams) {
+    const answer = await this.prisma.answer.update({
+      where: { id },
+      data,
     });
 
     return answer;
