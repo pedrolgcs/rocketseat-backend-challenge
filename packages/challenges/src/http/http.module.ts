@@ -6,9 +6,9 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { DatabaseModule } from '../database/database.module';
 import { MessagingModule } from '../messaging/messaging.module';
 import { ChallengesResolver } from './graphql/resolvers/challenges.resolver';
-import { SubmissionsResolver } from './graphql/resolvers/submissions.resolver';
+import { AnswersResolver } from './graphql/resolvers/answers.resolver';
 import { ChallengesService } from '../services/challenges.service';
-import { SubmissionsService } from '../services/submissions.service';
+import { AnswersService } from '../services/answers.service';
 
 @Module({
   imports: [
@@ -23,11 +23,11 @@ import { SubmissionsService } from '../services/submissions.service';
   providers: [
     // Resolvers
     ChallengesResolver,
-    SubmissionsResolver,
+    AnswersResolver,
 
     // Services
     ChallengesService,
-    SubmissionsService,
+    AnswersService,
   ],
 })
 export class HttpModule {}

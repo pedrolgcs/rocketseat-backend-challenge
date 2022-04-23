@@ -37,19 +37,6 @@ export class ChallengesService {
       },
     });
 
-    /* // ? Check if this is the correct way to do pagination
-      const total = await this.prisma.challenge.count();
-
-      const result = {
-        challenges,
-        total,
-        page,
-        perPage,
-      }
-
-      return result;
-    */
-
     return challenges;
   }
 

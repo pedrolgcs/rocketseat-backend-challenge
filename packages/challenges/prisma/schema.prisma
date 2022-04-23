@@ -14,27 +14,27 @@ model Challenge {
   createdAt   DateTime @default(now())
 
   // FK
-  Submission Submission[]
+  Answer Answer[]
 
   @@map("challenges")
 }
 
-enum SubmissionStatus {
+enum AnswerStatus {
   PENDING
   DONE
   ERROR
 }
 
-model Submission {
-  id         String           @id @default(uuid())
+model Answer {
+  id         String       @id @default(uuid())
   repository String
-  status     SubmissionStatus @default(PENDING)
+  status     AnswerStatus @default(PENDING)
   grade      Int?
-  createdAt  DateTime         @default(now())
+  createdAt  DateTime     @default(now())
 
   // FK
   challenge   Challenge? @relation(fields: [challengeId], references: [id])
   challengeId String?
 
-  @@map("submissions")
+  @@map("answers")
 }

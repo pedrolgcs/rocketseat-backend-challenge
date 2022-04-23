@@ -1,5 +1,5 @@
 import { ObjectType, Field, ID } from '@nestjs/graphql';
-import { Submission } from './submission';
+import { Answer } from './answer';
 
 @ObjectType()
 export class Challenge {
@@ -15,6 +15,6 @@ export class Challenge {
   @Field(() => Date)
   createdAt: Date;
 
-  @Field(() => [Submission])
-  submissions: Submission[];
+  @Field(() => [Answer])
+  answers: Answer[];
 }

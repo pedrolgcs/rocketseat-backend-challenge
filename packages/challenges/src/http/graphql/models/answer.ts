@@ -1,27 +1,27 @@
 import { ObjectType, Field, ID, registerEnumType } from '@nestjs/graphql';
 import { Challenge } from './challenge';
 
-enum SubmissionStatus {
+enum AnswerStatus {
   PENDING = 'PENDING',
   DONE = 'DONE',
   ERROR = 'ERROR',
 }
 
-registerEnumType(SubmissionStatus, {
-  name: 'SubmissionStatus',
-  description: 'The status of the submission',
+registerEnumType(AnswerStatus, {
+  name: 'AnswerStatus',
+  description: 'The status of the answer',
 });
 
 @ObjectType()
-export class Submission {
+export class Answer {
   @Field(() => ID)
   id: string;
 
   @Field()
   repository: string;
 
-  @Field(() => SubmissionStatus)
-  status: SubmissionStatus;
+  @Field(() => AnswerStatus)
+  status: AnswerStatus;
 
   @Field({ nullable: true })
   grade: number;

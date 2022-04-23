@@ -7,7 +7,7 @@ import {
   Resolver,
 } from '@nestjs/graphql';
 import { ChallengesService } from '../../../services/challenges.service';
-import { SubmissionsService } from '../../../services/submissions.service';
+import { AnswersService } from '../../../services/answers.service';
 import { Challenge } from '../models/challenge';
 import { CreateChallengeInput } from '../inputs/create-challenge-input';
 import { UpdateChallengeInput } from '../inputs/update-challenge-input';
@@ -17,7 +17,7 @@ import { ListChallengesInput } from '../inputs/list-challenges-input';
 export class ChallengesResolver {
   constructor(
     private challengesService: ChallengesService,
-    private submissionsService: SubmissionsService,
+    private answersService: AnswersService,
   ) {}
 
   @Query(() => [Challenge])
@@ -44,7 +44,7 @@ export class ChallengesResolver {
   }
 
   @ResolveField()
-  submissions(@Parent() challenge: Challenge) {
-    return this.submissionsService.getSubmissionsByChallengeId(challenge.id);
+  answers(@Parent() challenge: Challenge) {
+    return this.answersService.getAnswersByChallengeId(challenge.id);
   }
 }

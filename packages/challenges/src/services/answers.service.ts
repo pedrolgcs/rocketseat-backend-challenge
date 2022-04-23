@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../database/prisma/prisma.service';
 import { KafkaService } from '../messaging/kafka.service';
 
-interface ListSubmissionsParams {
+interface ListAnswersParams {
   challengeId?: string;
   dateStart?: Date;
   dateEnd?: Date;
@@ -11,15 +11,16 @@ interface ListSubmissionsParams {
   perPage?: number;
 }
 
-interface CreateSubmissionParams {
+interface CreateAnswerParams {
   repository: string;
   challengeId: string;
 }
+
 @Injectable()
-export class SubmissionsService {
+export class AnswersService {
   constructor(private prisma: PrismaService, private kafka: KafkaService) {}
 
-  async listSubmissions(filters: ListSubmissionsParams) {
+  async listAnswers(filters: ListAnswersParams) {
     const {
       challengeId,
       status,
@@ -29,7 +30,7 @@ export class SubmissionsService {
       dateEnd,
     } = filters;
 
-    const submissions = await this.prisma.submission.findMany({
+    const answers = await this.prisma.answer.findMany({
       where: {
         challengeId: challengeId ? { equals: challengeId } : undefined,
         status: status ? { equals: status } : undefined,
@@ -42,20 +43,20 @@ export class SubmissionsService {
       take: perPage,
     });
 
-    return submissions;
+    return answers;
   }
 
-  async getSubmissionsByChallengeId(challengeId: string) {
-    const submissions = await this.prisma.submission.findMany({
+  async getAnswersByChallengeId(challengeId: string) {
+    const answers = await this.prisma.answer.findMany({
       where: {
         challengeId,
       },
     });
 
-    return submissions;
+    return answers;
   }
 
-  async createSubmission(data: CreateSubmissionParams) {
+  async createAnswer(data: CreateAnswerParams) {
     const { repository, challengeId } = data;
 
     const repositoryURL = repository.replace(/\.git$/, '');
@@ -65,7 +66,7 @@ export class SubmissionsService {
     );
 
     if (!validURL) {
-      await this.prisma.submission.create({
+      await this.prisma.answer.create({
         data: {
           repository,
           status: 'ERROR',
@@ -80,7 +81,7 @@ export class SubmissionsService {
     });
 
     if (!challenge) {
-      await this.prisma.submission.create({
+      await this.prisma.answer.create({
         data: {
           repository,
           status: 'ERROR',
@@ -92,7 +93,7 @@ export class SubmissionsService {
 
     const gitUrl = `${repositoryURL}.git`;
 
-    const submission = await this.prisma.submission.create({
+    const answer = await this.prisma.answer.create({
       data: {
         repository: gitUrl,
         challengeId,
@@ -101,10 +102,10 @@ export class SubmissionsService {
 
     // Send kafka message
     this.kafka.emit('challenge.correction', {
-      submissionId: submission.id,
-      repositoryUrl: submission.repository,
+      submissionId: answer.id,
+      repositoryUrl: answer.repository,
     });
 
-    return submission;
+    return answer;
   }
 }

@@ -1,7 +1,7 @@
 import { Field, InputType } from '@nestjs/graphql';
 
 @InputType()
-export class ListSubmissionsInput {
+export class ListAnswersInput {
   @Field({ nullable: true })
   challengeId: string;
 

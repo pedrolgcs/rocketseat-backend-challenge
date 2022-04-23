@@ -2,17 +2,17 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type Submission {
+type Answer {
   id: ID!
   repository: String!
-  status: SubmissionStatus!
+  status: AnswerStatus!
   grade: Float
   createdAt: DateTime!
   challenge: Challenge
 }
 
-"""The status of the submission"""
-enum SubmissionStatus {
+"""The status of the answer"""
+enum AnswerStatus {
   PENDING
   DONE
   ERROR
@@ -28,12 +28,12 @@ type Challenge {
   title: String!
   description: String!
   createdAt: DateTime!
-  submissions: [Submission!]!
+  answers: [Answer!]!
 }
 
 type Query {
   challenges(filter: ListChallengesInput!): [Challenge!]!
-  submissions(filter: ListSubmissionsInput!): [Submission!]!
+  answers(filter: ListAnswersInput!): [Answer!]!
 }
 
 input ListChallengesInput {
@@ -43,7 +43,7 @@ input ListChallengesInput {
   perPage: Float
 }
 
-input ListSubmissionsInput {
+input ListAnswersInput {
   challengeId: String
   dateStart: DateTime
   dateEnd: DateTime
@@ -56,7 +56,7 @@ type Mutation {
   createChallenge(data: CreateChallengeInput!): Challenge!
   updateChallenge(id: String!, data: UpdateChallengeInput!): Challenge!
   deleteChallenge(id: String!): Challenge!
-  createSubmission(data: CreateSubmissionInput!): Submission!
+  answerChallenge(data: CreateAnswerInput!): Answer!
 }
 
 input CreateChallengeInput {
@@ -69,7 +69,7 @@ input UpdateChallengeInput {
   description: String!
 }
 
-input CreateSubmissionInput {
+input CreateAnswerInput {
   repository: String!
   challengeId: String!
 }
