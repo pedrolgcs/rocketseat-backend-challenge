@@ -45,6 +45,10 @@ export class ChallengesService {
       where: { id },
     });
 
+    if (!challenge) {
+      throw new Error('Challenge not found');
+    }
+
     return challenge;
   }
 
@@ -60,20 +64,28 @@ export class ChallengesService {
   }
 
   async updateChallenge(id: string, data: UpdateChallengeParams) {
-    const challenge = await this.prisma.challenge.update({
-      where: { id },
-      data,
-    });
+    const challenge = await this.prisma.challenge
+      .update({
+        where: { id },
+        data,
+      })
+      .catch(() => {
+        throw new Error('Challenge not found');
+      });
 
     return challenge;
   }
 
   async deleteChallenge(id: string) {
-    const challenge = await this.prisma.challenge.delete({
-      where: {
-        id,
-      },
-    });
+    const challenge = await this.prisma.challenge
+      .delete({
+        where: {
+          id,
+        },
+      })
+      .catch(() => {
+        throw new Error('Challenge not found');
+      });
 
     return challenge;
   }

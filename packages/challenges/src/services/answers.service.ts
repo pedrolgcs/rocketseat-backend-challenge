@@ -114,10 +114,14 @@ export class AnswersService {
   }
 
   async updateAnswer(id: string, data: UpdateAnswerParams) {
-    const answer = await this.prisma.answer.update({
-      where: { id },
-      data,
-    });
+    const answer = await this.prisma.answer
+      .update({
+        where: { id },
+        data,
+      })
+      .catch(() => {
+        throw new Error('Answer not found');
+      });
 
     return answer;
   }
