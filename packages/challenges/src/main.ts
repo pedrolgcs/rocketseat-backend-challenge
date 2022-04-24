@@ -11,7 +11,6 @@ async function bootstrap() {
     transport: Transport.KAFKA,
     options: {
       client: {
-        clientId: 'challenge',
         brokers: [kafkaConfig.brokers],
       },
       consumer: {
